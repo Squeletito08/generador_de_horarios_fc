@@ -1,4 +1,5 @@
 from .constantes import DiaSemana  
+from functools import total_ordering
 
 class Materia:
     def __init__(self, nombre, id_materia):
@@ -11,10 +12,10 @@ class Materia:
     def __repr__(self):
         return f"Materia(id={self.id}, nombre='{self.nombre}')"
 
-
+@total_ordering
 class Horario:
     def __init__(self, hora_inicio, hora_termino):
-        self.dias_clase = [False] * 7
+        self.dias_clase = [False] * len(DiaSemana)
         self.hora_inicio = hora_inicio  
         self.hora_termino = hora_termino 
 
@@ -29,6 +30,16 @@ class Horario:
 
     def __repr__(self):
         return f"Horario({self.hora_inicio} a {self.hora_termino})"
+
+    def __eq__(self, other):
+        if not isinstance(other, Horario):
+            return NotImplemented
+        return self.dias_clase == other.dias_clase and self.hora_inicio == other.hora_inicio and self.hora_termino == other.hora_termino
+
+    def __lt__(self, other):
+        if not isinstance(other, Horario):
+            return NotImplemented
+        return self.hora_termino <= other.hora_inicio 
 
 
 class Profesor:
@@ -59,9 +70,16 @@ class Grupo:
         self.cupo = cupo
         self.tiene_presentacion = tiene_presentacion
         self.profesores = []
+        self.horas = {dia: [] for dia in DiaSemana}
 
     def agrega_profesor(self, profesor, horario):
         self.profesores.append((profesor, horario))
+        self._agrega_horas(horario)
+
+    def _agrega_horas(self, horario):
+        for dia in DiaSemana:
+            if horario.dias_clase[dia.id]:
+                self.horas[dia].append((horario.hora_inicio, horario.hora_termino))
 
     def __str__(self):
         presentacion = "Sí" if self.tiene_presentacion else "No"
