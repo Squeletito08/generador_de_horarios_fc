@@ -1,8 +1,9 @@
 import scraper
 from scraper.modelos import Materia
 from scraper.constantes import SEMESTRE, CarrerasFacultadDeCiencias
-
 from generator import genera_todos_los_horarios_validos
+from filters.opciones import opciones_programa
+from filters.filtrador_grupos import filtra_grupos
 
 def imprime_materias(materias):
     separador = "=" * 15
@@ -16,7 +17,6 @@ def imprime_materias(materias):
     for materia in materias:
         print(f"{materia.nombre:<{max_len_nombre}} | {materia.id:<6}")
 
-
 def main():
     materias = scraper.obtener_catalogo_materias(SEMESTRE, CarrerasFacultadDeCiencias.CIENCIAS_DE_LA_COMPUTACION.id)
 
@@ -24,26 +24,22 @@ def main():
     for materia in materias:
         materias_dict[materia.id] = materia
     
-    imprime_materias(materias)
+    filtros = opciones_programa()
 
-    print("Introduce los ids de las materias a trabajar separadas por comas: ", end="")
-    materias_a_usar = input().replace(" ", "").split(",")
-
+    materias_a_usar = filtros.lista_materias
     grupos = []
 
     for id_materia in materias_a_usar:
-        grupos.extend(scraper.obtener_horarios_de_materia(SEMESTRE, CarrerasFacultadDeCiencias.CIENCIAS_DE_LA_COMPUTACION.id, materias_dict[int(id_materia)]))
+        grupos.extend(scraper.obtener_horarios_de_materia(SEMESTRE, CarrerasFacultadDeCiencias.CIENCIAS_DE_LA_COMPUTACION.id, materias_dict[id_materia]))
 
+    grupos = filtra_grupos(filtros, grupos)
     horarios_validos = genera_todos_los_horarios_validos(grupos)
 
-    print(f"Numero de horarios validos: {len(horarios_validos)}")
-
     for horario in horarios_validos:
-        print("=" * 50)
+        print("=" * 100)
         for grupo in horario:
             print(grupo)
             print()
-        print()
 
 
 

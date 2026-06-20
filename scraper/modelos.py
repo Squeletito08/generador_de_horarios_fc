@@ -90,7 +90,7 @@ class Grupo:
         profesores_str = "\n".join(lineas_profesores) if lineas_profesores else "    - Sin profesores asignados"
 
         return (
-            f"Grupo {self.clave} | Materia: {self.materia.nombre}\n"
+                f"Grupo {self.clave} | Materia: {self.materia.nombre} | ID: {self.materia.id}\n"
             f"  Cupo: {self.cupo} | Modalidad: {self.modalidad.value}\n"
             f"  Asignaciones:\n{profesores_str}"
         )

@@ -1,12 +1,29 @@
 import argparse
 from datetime import datetime
 from .modelos import FiltrosGrupos, FiltrosGruposBuilder
+from scraper.constantes import ModalidadGrupo
 
 def validar_hora(cadena_hora):
     try:
         return datetime.strptime(cadena_hora, "%H:%M").time()
     except ValueError:
         raise argparse.ArgumentTypeError(f"Formato de hora no válido: '{cadena_hora}'. Debe ser HH:MM (ej. 07:30)")
+
+def genera_lista_modalidades(modalidades):
+    set_modalidades = set()
+
+    for modalidad in modalidades:
+        match modalidad:
+            case "p":
+                set_modalidades.add(ModalidadGrupo.PRESENCIAL)
+            case "v":
+                set_modalidades.add(ModalidadGrupo.VIRTUAL)
+            case "m":
+                set_modalidades.add(ModalidadGrupo.MIXTA)
+
+    if set_modalidades:
+        return list(set_modalidades)
+    return None
 
 def opciones_programa():
     parser = argparse.ArgumentParser(
@@ -37,15 +54,17 @@ def opciones_programa():
     )
 
     parser.add_argument(
-            "materias", 
+            "-ma",
+            "--materias", 
             nargs="+",
             type=int,
+            required=True,
             help="Lista de materias (ids) a considerar"
     )
 
     args = parser.parse_args()
 
-    return FiltrosGruposBuilder(args.materias).con_hora_inicio(args.hora_inicio).con_hora_termino(args.hora_termino).con_modalidades(args.modalidades).build()
+    return FiltrosGruposBuilder(args.materias).con_hora_inicio(args.hora_inicio).con_hora_termino(args.hora_termino).con_modalidades(genera_lista_modalidades(args.modalidades)).build()
     
 
 

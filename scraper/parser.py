@@ -110,8 +110,6 @@ def crea_horario(profesor_data):
 
 def extraer_horarios(html_materia_content, materia):
     data_json = _extraer_json_de_script(html_materia_content)
-    print("Json -> ")
-    print(json.dumps(data_json, indent=4))
     grupos_por_asignatura = data_json["queryhorarios"]["data"]["grupos_por_asignatura"]
     grupos = []
 

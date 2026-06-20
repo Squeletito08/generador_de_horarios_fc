@@ -1,0 +1,82 @@
+=============== Ciencias de la Computación ===============
+Asignatura                                               | ID    
+-----------------------------------------------------------------
+Álgebra Superior I                                       | 7     
+Estructuras Discretas                                    | 1123  
+Inglés I                                                 | 1124  
+Introducción a Ciencias de la Computación                | 1125  
+Matemáticas para las Ciencias Aplicadas I                | 1126  
+Álgebra Superior II                                      | 8     
+Estructuras de Datos                                     | 1222  
+Graficas y Juegos                                        | 422   
+Inglés II                                                | 1223  
+Matemáticas para las Ciencias Aplicadas II               | 1226  
+Álgebra Lineal I                                         | 5     
+Inglés III                                               | 1322  
+Matemáticas para las Ciencias Aplicadas III              | 1326  
+Modelado y Programación                                  | 1323  
+Probabilidad I                                           | 625   
+Autómatas y Lenguajes Formales                           | 1425  
+Inglés IV                                                | 1426  
+Lógica Computacional                                     | 1427  
+Matemáticas para las Ciencias Aplicadas IV               | 1429  
+Organización y Arquitectura de Computadoras              | 1428  
+Análisis de Algoritmos                                   | 1532  
+Computación Distribuida                                  | 1533  
+Fundamentos de Bases de Datos                            | 1534  
+Inglés V                                                 | 1535  
+Lenguajes de Programación                                | 1536  
+Ingeniería de Software                                   | 575   
+Inteligencia Artificial                                  | 608   
+Sistemas Operativos                                      | 713   
+Compiladores                                             | 817   
+Complejidad Computacional                                | 269   
+Redes de Computadoras                                    | 714   
+Computación Concurrente                                  | 1827  
+Criptografía y Seguridad                                 | 1828  
+Inglés VI                                                | 1829  
+Administración de Empresas de Software                   | 654   
+Álgebra Lineal II                                        | 6     
+Álgebra Moderna I                                        | 1     
+Álgebra Moderna II                                       | 2     
+Algoritmos Paralelos                                     | 657   
+Almacenes y Minería de Datos                             | 658   
+Análisis Numérico                                        | 1707  
+Animación por Computadora                                | 659   
+Ciencia, Diversidad e Inclusión                          | 1049  
+Computación Cuántica I                                   | 662   
+Cómputo Evolutivo                                        | 664   
+Diseño de Interfaces de Usuario                          | 665   
+Diseño y Programación de Videojuegos                     | 666   
+Estadística I                                            | 398   
+Estadística II                                           | 399   
+Genómica Computacional                                   | 667   
+Introducción a las Funciones Recursivas y Computabilidad | 351   
+Investigación de Operaciones                             | 1506  
+Lógica Computacional II                                  | 671   
+Lógica Matemática II                                     | 446   
+Lógica Matemática III                                    | 447   
+Probabilidad II                                          | 626   
+Proceso Digital de Imagenes                              | 805   
+Procesos Estocásticos                                    | 1613  
+Programación de Dispositivos Móviles                     | 675   
+Programación Entera                                      | 633   
+Programación Lineal                                      | 621   
+Programación no Lineal                                   | 634   
+Reconocimiento de Patrones y Aprendizaje Automatizado    | 773   
+Redes Neuronales                                         | 781   
+Riesgo Tecnológico                                       | 782   
+Robótica                                                 | 820   
+Seminario de Ciencias de la Computación A                | 783   
+Seminario de Ciencias de la Computación B                | 784   
+Tecnologías para Desarrollos en Internet                 | 790   
+Temas Selectos de Análisis Numérico                      | 1089  
+Teoría de Gráficas                                       | 759   
+Teoría de las Gráficas II                                | 277   
+Teoría de los Conjuntos I                                | 760   
+Teoría de los Conjuntos II                               | 779   
+Teoría de los Números I                                  | 764   
+Teoría de los Números II                                 | 777   
+Teoría de Redes                                          | 442   
+Visión Por Computadora                                   | 794   
+Visualización                                            | 809   
