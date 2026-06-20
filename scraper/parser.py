@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from bs4 import BeautifulSoup
 from .modelos import Materia, Grupo, Profesor, Horario
-from .constantes import DiaSemana
+from .constantes import DiaSemana, ModalidadGrupo
 
 def _extraer_json_de_script(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
@@ -29,13 +29,30 @@ def extraer_materias(html_content):
 
     return materias_con_codigo
 
+def extrae_modalidad_grupo(json_grupo):
+    string_modalidad = json_grupo.get("grupo__modalidad", {}).get("modalidad__nombre", None)
+
+    match string_modalidad:
+        case ModalidadGrupo.PRESENCIAL.value:
+            modalidad = ModalidadGrupo.PRESENCIAL
+        case ModalidadGrupo.VIRTUAL.value:
+            modalidad = ModalidadGrupo.VIRTUAL
+        case ModalidadGrupo.MIXTA.value:
+            modalidad = ModalidadGrupo.MIXTA
+        case _:
+            modalidad = ModalidadGrupo.DESCONOCIDA
+
+    return modalidad
+    
+
 def crea_grupo(json_grupo, materia):
     return Grupo(
         materia=materia,
         id_grupo=json_grupo.get("grupo__id"),
         clave=json_grupo.get("grupo__clave"),
         cupo=json_grupo.get("grupo__cupo", 0),
-        tiene_presentacion=json_grupo.get("grupo__tiene_presentacion", False)
+        tiene_presentacion=json_grupo.get("grupo__tiene_presentacion", False), 
+        modalidad=extrae_modalidad_grupo(json_grupo)
     )
 
 def obtener_cargo_profesor(profesor_data):
@@ -93,6 +110,8 @@ def crea_horario(profesor_data):
 
 def extraer_horarios(html_materia_content, materia):
     data_json = _extraer_json_de_script(html_materia_content)
+    print("Json -> ")
+    print(json.dumps(data_json, indent=4))
     grupos_por_asignatura = data_json["queryhorarios"]["data"]["grupos_por_asignatura"]
     grupos = []
 

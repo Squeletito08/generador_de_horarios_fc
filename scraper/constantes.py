@@ -21,6 +21,12 @@ class DiaSemana(Enum):
                 return dia
         raise ValueError(f"ID de día no válido: {id_num}")
 
+class ModalidadGrupo(Enum):
+    PRESENCIAL = "Presencial"
+    VIRTUAL = "Virtual"
+    MIXTA = "Mixta"
+    DESCONOCIDA = "Desconocida"
+
 class CarrerasFacultadDeCiencias(Enum):
     CIENCIAS_DE_LA_COMPUTACION = (1556, "Ciencias de la Computación")
 

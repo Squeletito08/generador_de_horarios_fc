@@ -63,14 +63,16 @@ class Profesor:
 
 
 class Grupo:
-    def __init__(self, materia, id_grupo, clave, cupo, tiene_presentacion):
+    def __init__(self, materia, id_grupo, clave, cupo, tiene_presentacion, modalidad):
         self.materia = materia  
         self.id = id_grupo
         self.clave = clave
         self.cupo = cupo
         self.tiene_presentacion = tiene_presentacion
+        self.modalidad = modalidad
         self.profesores = []
         self.horas = {dia: [] for dia in DiaSemana}
+
 
     def agrega_profesor(self, profesor, horario):
         self.profesores.append((profesor, horario))
@@ -82,8 +84,6 @@ class Grupo:
                 self.horas[dia].append((horario.hora_inicio, horario.hora_termino))
 
     def __str__(self):
-        presentacion = "Sí" if self.tiene_presentacion else "No"
-
         lineas_profesores = []
         for prof, hor in self.profesores:
             lineas_profesores.append(f"    - {prof} -> {hor}")
@@ -91,7 +91,7 @@ class Grupo:
 
         return (
             f"Grupo {self.clave} | Materia: {self.materia.nombre}\n"
-            f"  Cupo: {self.cupo} | Presentación: {presentacion}\n"
+            f"  Cupo: {self.cupo} | Modalidad: {self.modalidad.value}\n"
             f"  Asignaciones:\n{profesores_str}"
         )
 
