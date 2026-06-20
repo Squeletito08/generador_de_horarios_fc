@@ -1,9 +1,10 @@
 import scraper
 from scraper.modelos import Materia
-from scraper.constantes import SEMESTRE, CarrerasFacultadDeCiencias
+from scraper.constantes import SEMESTRE, CarrerasFacultadDeCiencias, BloqueMaterias
 from generator import genera_todos_los_horarios_validos
 from filters.opciones import opciones_programa
 from filters.filtrador_grupos import filtra_grupos
+from filters.filtra_materias import obten_materias_faltantes, filtra_materias_por_bloque
 
 def imprime_materias(materias):
     separador = "=" * 15
@@ -23,7 +24,7 @@ def main():
     materias_dict = {}
     for materia in materias:
         materias_dict[materia.id] = materia
-    
+
     filtros = opciones_programa()
 
     materias_a_usar = filtros.lista_materias
@@ -40,12 +41,6 @@ def main():
         for grupo in horario:
             print(grupo)
             print()
-
-
-
-
-
-
 
 
 if __name__ == "__main__":

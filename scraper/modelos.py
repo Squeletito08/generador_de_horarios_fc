@@ -2,12 +2,13 @@ from .constantes import DiaSemana
 from functools import total_ordering
 
 class Materia:
-    def __init__(self, nombre, id_materia):
+    def __init__(self, nombre, id_materia, bloque):
         self.nombre = nombre 
         self.id = id_materia 
+        self.bloque = bloque
 
     def __str__(self):
-        return f"{self.nombre} (ID: {self.id})"
+        return f"{self.nombre}\nID: {self.id}\nBloque: {self.bloque.value}"
 
     def __repr__(self):
         return f"Materia(id={self.id}, nombre='{self.nombre}')"
@@ -90,7 +91,7 @@ class Grupo:
         profesores_str = "\n".join(lineas_profesores) if lineas_profesores else "    - Sin profesores asignados"
 
         return (
-                f"Grupo {self.clave} | Materia: {self.materia.nombre} | ID: {self.materia.id}\n"
+                f"Grupo {self.clave} | Materia: {self.materia.nombre} | ID: {self.materia.id} | Bloque: {self.materia.bloque.value}\n"
             f"  Cupo: {self.cupo} | Modalidad: {self.modalidad.value}\n"
             f"  Asignaciones:\n{profesores_str}"
         )

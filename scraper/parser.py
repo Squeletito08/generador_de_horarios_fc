@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from bs4 import BeautifulSoup
 from .modelos import Materia, Grupo, Profesor, Horario
-from .constantes import DiaSemana, ModalidadGrupo
+from .constantes import DiaSemana, ModalidadGrupo, BloqueMaterias
 
 def _extraer_json_de_script(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
@@ -19,11 +19,13 @@ def extraer_materias(html_content):
     grupos_por_plan = data_json["querygruposplan"]["data"]["grupos_por_plan"]
 
     for grupo in grupos_por_plan:
+        semestre = BloqueMaterias.from_string(grupo["plan__bloque"])
         for bloque in grupo["plan__grupos_bloque"]:
             materia_data = bloque["asignatura__asignatura"]
             materia_objeto = Materia(
                 nombre=materia_data["asignatura__nombre"],
-                id_materia=materia_data["asignatura__id"]
+                id_materia=materia_data["asignatura__id"],
+                bloque=semestre
             )
             materias_con_codigo.append(materia_objeto)
 
@@ -32,17 +34,11 @@ def extraer_materias(html_content):
 def extrae_modalidad_grupo(json_grupo):
     string_modalidad = json_grupo.get("grupo__modalidad", {}).get("modalidad__nombre", None)
 
-    match string_modalidad:
-        case ModalidadGrupo.PRESENCIAL.value:
-            modalidad = ModalidadGrupo.PRESENCIAL
-        case ModalidadGrupo.VIRTUAL.value:
-            modalidad = ModalidadGrupo.VIRTUAL
-        case ModalidadGrupo.MIXTA.value:
-            modalidad = ModalidadGrupo.MIXTA
-        case _:
-            modalidad = ModalidadGrupo.DESCONOCIDA
+    for modalidad in ModalidadGrupo:
+        if modalidad.value == string_modalidad:
+            return modalidad
 
-    return modalidad
+    return ModalidadGrupo.DESCONOCIDA
     
 
 def crea_grupo(json_grupo, materia):

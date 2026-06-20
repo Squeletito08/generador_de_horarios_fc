@@ -34,6 +34,24 @@ class CarrerasFacultadDeCiencias(Enum):
         self.id = id
         self.nombre = nombre
 
+class BloqueMaterias(Enum):
+    PRIMER_SEMESTRE = "Primer Semestre"
+    SEGUNDO_SEMESTRE = "Segundo Semestre"
+    TERCER_SEMESTRE = "Tercer Semestre"
+    CUARTO_SEMESTRE = "Cuarto Semestre"
+    QUINTO_SEMESTRE = "Quinto Semestre"
+    SEXTO_SEMESTRE = "Sexto Semestre"
+    SEPTIMO_SEMESTRE = "Septimo Semestre"
+    OCTAVO_SEMESTRE = "Octavo Semestre"
+    OPTATIVA = "Optativas"
+    DESCONOCIDO = "Desconocido"
+
+    @classmethod
+    def from_string(cls, s):
+        for bloque in cls:
+            if bloque.value == s:
+                return bloque
+        return BloqueMaterias.DESCONOCIDO
 
 SEMESTRE = "20271"
 
