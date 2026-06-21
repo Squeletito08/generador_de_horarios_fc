@@ -6,4 +6,6 @@ GREEN = "\033[32m"
 YELLOW = "\033[33m"
 GRAY = "\033[90m"
 
+OPTATIVAS_FALTANTES = 5
+
 

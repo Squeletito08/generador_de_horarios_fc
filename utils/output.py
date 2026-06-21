@@ -1,31 +1,6 @@
 from .constantes import RESET,BOLD,GREEN,CYAN,YELLOW,GRAY,MATERIAS_CURSADAS_PATH
-from scraper.constantes import BloqueMaterias
-
-def _obten_ids_de_materias_cursadas():
-    ids_materias = []
-    with open(MATERIAS_CURSADAS_PATH, "r") as file:
-        for line in file: 
-            id = line.strip()
-            ids_materias.append(int(id))
-    return ids_materias
-
-def obten_materias_faltantes(materias):
-    materias_cursadas = set(_obten_ids_de_materias_cursadas())
-    ids_faltantes = materias.keys() - materias_cursadas
-    return {id_materia: materias[id_materia] for id_materia in ids_faltantes}
-
-def filtra_materias_por_bloque(materias, bloques, incluye=True):
-    return {
-        id_mat: mat 
-        for id_mat, mat in materias.items() 
-        if (mat.bloque in bloques) == incluye
-    }
-
-def filtra_materias_por_semestre(materias):
-    materias_por_semestre = {bloque: [] for bloque in BloqueMaterias}
-    for _, materia in materias.items():
-        materias_por_semestre[materia.bloque].append(materia)
-    return materias_por_semestre
+from scraper.constantes import BloqueMaterias, CarrerasFacultadDeCiencias
+from .utils import obten_materias_faltantes, filtra_materias_por_semestre
 
 def _generar_cabecera_centrada(texto, ancho_total=80, simbolo="=", color_borde=GRAY, color_texto=BOLD+CYAN):
     espacio_disponible = max(0, ancho_total - len(texto) - 2)
@@ -40,7 +15,10 @@ def _generar_cabecera_centrada(texto, ancho_total=80, simbolo="=", color_borde=G
 
 def imprime_materias_faltantes(materias):
     materias_faltantes = obten_materias_faltantes(materias)
-    materias_por_semestre = filtra_materias_por_semestre(materias_faltantes)
+    imprime_materias(materias_faltantes)
+
+def imprime_materias(materias):
+    materias_por_semestre = filtra_materias_por_semestre(materias)
 
     for semestre, lista_materias in materias_por_semestre.items():
         if not lista_materias:
@@ -52,7 +30,6 @@ def imprime_materias_faltantes(materias):
             print(f"  {GRAY}[{materia.id}]{RESET} {materia.nombre}")
         print(linea_cierre)
         print()
-
 
 def imprime_horarios(horarios):
     for ctd, horario in enumerate(horarios, 1):

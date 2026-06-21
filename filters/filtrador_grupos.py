@@ -1,9 +1,6 @@
 from scraper.constantes import DiaSemana
 
 def cumple_filtro(filtros, grupo):
-    if grupo.materia.id not in filtros.lista_materias:
-        return False
-
     if grupo.modalidad not in filtros.modalidades:
         return False
 

@@ -56,7 +56,7 @@ def opciones_programa():
     parser.add_argument(
             "-op", "--optativas",
             type=int,
-            default=1,
+            default=6,
             help="Máximo número de optativas a considerar en un horario"
             )
 
@@ -65,7 +65,6 @@ def opciones_programa():
             "--materias", 
             nargs="+",
             type=int,
-            required=True,
             help="Lista de materias (ids) a considerar"
     )
 

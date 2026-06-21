@@ -6,19 +6,10 @@ from filters.modelos import FiltrosGruposBuilder
 from filters.opciones import opciones_programa, genera_lista_modalidades
 from filters.filtrador_grupos import filtra_grupos
 
-from utils.output import imprime_horarios, imprime_materias_faltantes
+from utils.output import imprime_horarios, imprime_materias
 
-def imprime_materias(materias):
-    separador = "=" * 15
-    print(f"{separador} {CarrerasFacultadDeCiencias.CIENCIAS_DE_LA_COMPUTACION.nombre} {separador}")
-    
-    max_len_nombre = max(len(materia.nombre) for materia in materias) if materias else 30
-    
-    print(f"{'Asignatura':<{max_len_nombre}} | {'ID':<6}")
-    print("-" * (max_len_nombre + 9))
-
-    for materia in materias:
-        print(f"{materia.nombre:<{max_len_nombre}} | {materia.id:<6}")
+from utils.horarios import crea_horarios 
+from utils.utils import filtra_materias_por_bloque, obten_materias_faltantes
 
 def main():
     materias = scraper.obtener_catalogo_materias(SEMESTRE, CarrerasFacultadDeCiencias.CIENCIAS_DE_LA_COMPUTACION.id)
@@ -30,21 +21,18 @@ def main():
     args = opciones_programa()
     numero_maximo_optativas = args.optativas
 
-    filtros = FiltrosGruposBuilder(args.materias).con_hora_inicio(args.hora_inicio).con_hora_termino(args.hora_termino).con_modalidades(genera_lista_modalidades(args.modalidades)).build()
-   
-    materias_a_usar = filtros.lista_materias
-    grupos = []
+    filtros = FiltrosGruposBuilder().con_hora_inicio(args.hora_inicio).con_hora_termino(args.hora_termino).con_modalidades(genera_lista_modalidades(args.modalidades)).build()
 
-    for id_materia in materias_a_usar:
-        grupos.extend(scraper.obtener_horarios_de_materia(SEMESTRE, CarrerasFacultadDeCiencias.CIENCIAS_DE_LA_COMPUTACION.id, materias_dict[id_materia]))
+    if args.materias:
+        materias_a_usar = {id: materia for id, materia in materias_dict.items() if id in args.materias}
+        horarios = crea_horarios(materias_a_usar, filtros)
+    else:
+        materias_faltantes = obten_materias_faltantes(materias_dict)
+        # no_optativas = filtra_materias_por_bloque(materias_faltantes, [BloqueMaterias.OPTATIVA], incluye=False)
+        imprime_materias(materias_faltantes)
+        horarios = crea_horarios(materias_faltantes, filtros)
 
-    horarios_validos = genera_todos_los_horarios_validos(grupos, numero_maximo_optativas)
-    imprime_horarios(horarios_validos)
-
-    imprime_materias_faltantes(materias_dict)
-
-
-
+    imprime_horarios(horarios)
 
 if __name__ == "__main__":
     main()

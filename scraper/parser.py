@@ -31,8 +31,15 @@ def extraer_materias(html_content):
 
     return materias_con_codigo
 
+
 def extrae_modalidad_grupo(json_grupo):
-    string_modalidad = json_grupo.get("grupo__modalidad", {}).get("modalidad__nombre", None)
+    if not json_grupo:
+        return ModalidadGrupo.DESCONOCIDA
+
+    modalidad_bloque = json_grupo.get("grupo__modalidad")
+    modalidad_dict = modalidad_bloque or {}
+    
+    string_modalidad = modalidad_dict.get("modalidad__nombre")
 
     for modalidad in ModalidadGrupo:
         if modalidad.value == string_modalidad:
