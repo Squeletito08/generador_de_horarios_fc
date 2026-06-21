@@ -54,6 +54,13 @@ def opciones_programa():
     )
 
     parser.add_argument(
+            "-op", "--optativas",
+            type=int,
+            default=1,
+            help="Máximo número de optativas a considerar en un horario"
+            )
+
+    parser.add_argument(
             "-ma",
             "--materias", 
             nargs="+",
@@ -63,8 +70,5 @@ def opciones_programa():
     )
 
     args = parser.parse_args()
-
-    return FiltrosGruposBuilder(args.materias).con_hora_inicio(args.hora_inicio).con_hora_termino(args.hora_termino).con_modalidades(genera_lista_modalidades(args.modalidades)).build()
-    
-
+    return args
 
